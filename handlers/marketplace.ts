@@ -3,7 +3,7 @@ import { type EventHandlerFor } from "https://deno.land/x/robo_arkiver@v0.4.14/m
 import { AcceptAsk, CancelAsk, CreateAsk } from "../entities/marketplace.js";
 import { MOLEK_ABI } from "../abis/Marketplace.js";
 
-const MOLEK = [
+export const MOLEK = [
   { address: "0xB9606333AE6DD0B8C5ddd4FF19f55F4eF7FDC7D1", block: 23621821 }, // MOLEK
 ] as const;
 
