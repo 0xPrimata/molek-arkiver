@@ -1,31 +1,17 @@
-import { createEntity } from '../deps.js'
+import { createEntity } from "../deps.js";
 
-export interface ICreateAsk {
-  NFT: string
-  creator: string
-  tokenId: number
-  price: number
-  block: number
-  timestamp: number
+export interface IAsk {
+  NFT: string;
+  creator: string;
+  tokenId: number;
+  price: number;
+  timestamp: number;
 }
 
-export const CreateAsk = createEntity<ICreateAsk>('CreateAsk', {
-  NFT: String,
+export const Ask = createEntity<IAsk>("Ask", {
+  NFT: { type: String, index: true },
   creator: String,
   tokenId: { type: Number, index: true },
-  price: { type: Number, index: true },
+  price: { type: Number, index: false },
   timestamp: { type: Number, index: true },
-})
-
-export const CancelAsk = createEntity<ICreateAsk>('CancelAsk', {
-  NFT: String,
-  tokenId: { type: Number, index: true },
-  timestamp: { type: Number, index: true },
-})
-
-export const AcceptAsk = createEntity<ICreateAsk>('AcceptAsk', {
-  NFT: String,
-  tokenId: { type: Number, index: true },
-  price: { type: Number, index: true },
-  timestamp: { type: Number, index: true },
-})
+});

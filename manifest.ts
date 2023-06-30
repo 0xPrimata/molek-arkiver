@@ -1,6 +1,6 @@
 import { Manifest } from "https://deno.land/x/robo_arkiver@v0.4.14/mod.ts";
 import { MOLEK } from "./handlers/marketplace.ts";
-import { AcceptAsk, CancelAsk, CreateAsk } from "./entities/marketplace.ts";
+import { Ask } from "./entities/marketplace.ts";
 import {
   onAcceptAsk,
   onCancelAsk,
@@ -10,9 +10,8 @@ import {
 const manifest = new Manifest("molek-asks");
 
 manifest
-  .addEntity([CreateAsk, CancelAsk, AcceptAsk])
+  .addEntity(Ask)
   .chain("fuji")
-  .contract(MOLEK)
   .addSources({ "0xb9606333ae6dd0b8c5ddd4ff19f55f4ef7fdc7d1": 23624000n })
   .addEventHandlers({ "CreateAsk": onCreateAsk })
   .addEventHandlers({ "CancelAsk": onCancelAsk })
