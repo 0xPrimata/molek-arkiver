@@ -1,7 +1,7 @@
 import { formatUnits, getContract } from "npm:viem";
 import { type EventHandlerFor } from "https://deno.land/x/robo_arkiver@v0.4.14/mod.ts";
-import { Ask } from "../entities/marketplace.js";
-import { MOLEK_ABI } from "../abis/Marketplace.js";
+import { Ask } from "../entities/marketplace.ts";
+import { MOLEK_ABI } from "../abis/Marketplace.ts";
 
 export const onCreateAsk: EventHandlerFor<typeof MOLEK_ABI, "Ask"> = async ({
   event,
@@ -13,9 +13,8 @@ export const onCreateAsk: EventHandlerFor<typeof MOLEK_ABI, "Ask"> = async ({
     id,
     NFT,
     creator,
-    tokenId,
-    price,
-    timestamp: Number(block.timestamp),
+    tokenId: Number(tokenId),
+    price: Number(price),
   });
   record.save();
 };
@@ -26,7 +25,7 @@ export const onCancelAsk: EventHandlerFor<typeof MOLEK_ABI, "Ask"> = async ({
   store,
 }): Promise<void> => {
   const { NFT, tokenId } = event.args;
-  Ask.deleteOne({ NFT: NFT, tokenId: tokenId });
+  Ask.deleteOne({ NFT: NFT, tokenId: Number(tokenId) });
 };
 
 export const onAcceptAsk: EventHandlerFor<typeof MOLEK_ABI, "Ask"> = async ({
@@ -34,5 +33,5 @@ export const onAcceptAsk: EventHandlerFor<typeof MOLEK_ABI, "Ask"> = async ({
   block,
 }): Promise<void> => {
   const { NFT, tokenId, price } = event.args;
-  Ask.deleteOne({ NFT: NFT, tokenId: tokenId });
+  Ask.deleteOne({ NFT: NFT, tokenId: Number(tokenId) });
 };
