@@ -14,7 +14,7 @@ export const onCreateAsk: EventHandlerFor<typeof MOLEK_ABI, "CreateAsk"> = async
     tokenId: Number(tokenId),
     price: Number(price),
   });
-  record.save();
+  await record.save();
 };
 
 export const onCancelAsk: EventHandlerFor<typeof MOLEK_ABI, "CancelAsk"> = async ({
@@ -22,12 +22,12 @@ export const onCancelAsk: EventHandlerFor<typeof MOLEK_ABI, "CancelAsk"> = async
   store,
 }): Promise<void> => {
   const { NFT, tokenId } = event.args;
-  Ask.deleteOne({ NFT: NFT, tokenId: Number(tokenId) });
+  await Ask.deleteOne({ NFT: NFT, tokenId: Number(tokenId) });
 };
 
 export const onAcceptAsk: EventHandlerFor<typeof MOLEK_ABI, "AcceptAsk"> = async ({
   event,
 }): Promise<void> => {
   const { NFT, tokenId, price } = event.args;
-  Ask.deleteOne({ NFT: NFT, tokenId: Number(tokenId) });
+  await Ask.deleteOne({ NFT: NFT, tokenId: Number(tokenId) });
 };
