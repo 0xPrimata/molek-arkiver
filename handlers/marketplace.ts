@@ -1,4 +1,4 @@
-import { type EventHandlerFor } from "https://deno.land/x/robo_arkiver@v0.4.17/mod.ts";
+import { type EventHandlerFor } from "https://deno.land/x/robo_arkiver@v0.4.18/mod.ts";
 import { Ask, Blacklist } from "../entities/marketplace.ts";
 import { MOLEK_ABI } from "../abis/Marketplace.ts";
 import { ClientChainNotConfiguredError } from "npm:viem";
