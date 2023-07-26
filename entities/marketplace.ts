@@ -13,6 +13,7 @@ export interface IBlacklist {
   id: string;
   chain: number;
   address: string;
+  collectionName: string;
 }
 
 export const Ask = createEntity<IAsk>("Ask", {
@@ -28,4 +29,5 @@ export const Blacklist = createEntity<IBlacklist>("Blacklist", {
   id: String,
   chain: { type: Number, index: true },
   address: { type: String, index: true },
+  collectionName: String,
 });

@@ -1,7 +1,13 @@
 import { type EventHandlerFor } from "https://deno.land/x/robo_arkiver@v0.4.18/mod.ts";
 import { Ask, Blacklist } from "../entities/marketplace.ts";
-import { MOLEK_ABI } from "../abis/Marketplace.ts";
-import { ClientChainNotConfiguredError } from "npm:viem";
+import { MOLEK_ABI, NFT_ABI } from "../abis/Marketplace.ts";
+import { createPublicClient, getContract, http } from "npm:viem";
+import { avalanche } from "npm:viem/chains";
+
+const publicClient = createPublicClient({
+  chain: avalanche,
+  transport: http(),
+});
 
 export const onCreateAsk: EventHandlerFor<typeof MOLEK_ABI, "CreateAsk"> =
   async ({
@@ -49,6 +55,12 @@ export const onBlacklist: EventHandlerFor<typeof MOLEK_ABI, "Blacklisted"> =
     client,
   }): Promise<void> => {
     const { NFT, isBlacklisted } = event.args;
+    const contract = await getContract({
+      address: NFT,
+      abi: NFT_ABI,
+      publicClient,
+    });
+    const name = await contract.read.name();
     if (!isBlacklisted) {
       await Blacklist.deleteOne({ address: NFT });
     } else {
@@ -56,6 +68,7 @@ export const onBlacklist: EventHandlerFor<typeof MOLEK_ABI, "Blacklisted"> =
         id: `${event.transactionHash}:${event.blockNumber}:${event.logIndex}}`,
         chain: await client.getChainId(),
         address: NFT,
+        collectionName: name,
       });
       await record.save();
     }
