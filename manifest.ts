@@ -14,7 +14,7 @@ manifest
   .addEntities([Ask, Blacklist])
   .addChain("avalanche", { blockRange: 100n })
   .addContract(MOLEK_ABI)
-  .addSources({ "0xeb74e13B88A5cc09025e90A814C6643bb08916D1": 32572400n })
+  .addSources({ "0x441d636cd482769c6581B4062e931f13aB5dA774": 33087700n })
   .addEventHandlers({ "CreateAsk": onCreateAsk })
   .addEventHandlers({ "CancelAsk": onCancelAsk })
   .addEventHandlers({ "AcceptAsk": onAcceptAsk })
