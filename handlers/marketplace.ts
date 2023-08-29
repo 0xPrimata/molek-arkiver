@@ -87,7 +87,7 @@ export const onRewardCreated: EventHandlerFor<
   const {
     id,
     title,
-    collection,
+    collectionAddress,
     category,
     globalLimit,
     walletLimit,
@@ -103,9 +103,9 @@ export const onRewardCreated: EventHandlerFor<
 
   const record = new Reward({
     chain: await client.getChainId(),
-    rewardId: formatUnits(id, 0),
+    rewardId: Number(formatUnits(id, 0)),
     title: title,
-    collection: collection,
+    collectionAddress: collectionAddress,
     paused: false,
     category: category,
     globalLimit: globalLimit,
@@ -144,9 +144,9 @@ export const onRewardToggled: EventHandlerFor<
 
   const record = new Reward({
     chain: await client.getChainId(),
-    rewardId: formatUnits(id, 0),
+    rewardId: Number(formatUnits(id, 0)),
     title: rewardData[0].title,
-    collection: rewardData[0].collection,
+    collectionAddress: rewardData[0].collection,
     paused: paused,
     category: rewardData[0].category,
     globalLimit: rewardData[0].globalLimit,
@@ -188,9 +188,9 @@ export const onRewardClaimed: EventHandlerFor<
 
   const record = new Reward({
     chain: await client.getChainId(),
-    rewardId: formatUnits(id, 0),
+    rewardId: Number(formatUnits(id, 0)),
     title: rewardData[0].title,
-    collection: rewardData[0].collection,
+    collectionAddress: rewardData[0].collection,
     paused: false,
     category: rewardData[0].category,
     globalLimit: rewardData[0].globalLimit,

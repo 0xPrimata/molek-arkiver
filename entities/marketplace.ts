@@ -19,7 +19,7 @@ export interface IBlacklist {
 export interface IReward {
   rewardId: number;
   title: string;
-  collection: string;
+  collectionAddress: string;
   paused: boolean;
   category: number;
   globalLimit: number;
@@ -48,7 +48,7 @@ export const Blacklist = createEntity<IBlacklist>("Blacklist", {
 export const Reward = createEntity<IReward>("Reward", {
   rewardId: { type: Number, index: true },
   title: String,
-  collection: String,
+  collectionAddress: String,
   paused: Boolean,
   category: Number,
   globalLimit: Number,

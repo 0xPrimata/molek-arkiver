@@ -14,37 +14,48 @@ import {
 const manifest = new Manifest("molek-asks");
 
 manifest
-  .addEntities([Ask, Blacklist, Reward])
+  .addEntities([Ask, Blacklist])
   .addChain("avalanche", { blockRange: 100n })
-  .addContract(MOLEK_ABI)
-  .addSources({ "0x441d636cd482769c6581B4062e931f13aB5dA774": 33087700n })
-  .addEventHandlers({ "CreateAsk": onCreateAsk })
-  .addEventHandlers({ "CancelAsk": onCancelAsk })
-  .addEventHandlers({ "AcceptAsk": onAcceptAsk })
-  .addEventHandlers({ "Blacklisted": onBlacklist });
+  .addContract({
+    name: "Molek",
+    abi: MOLEK_ABI,
+    sources: { "0x441d636cd482769c6581B4062e931f13aB5dA774": 33087700n },
+    eventHandlers: {
+      "CreateAsk": onCreateAsk,
+      "CancelAsk": onCancelAsk,
+      "AcceptAsk": onAcceptAsk,
+      "Blacklisted": onBlacklist,
+    },
+  });
 
 manifest
   .addEntities([Ask, Blacklist])
   .addChain("avalancheFuji", { blockRange: 100n })
-  .addContract(MOLEK_ABI)
-  .addSources({
-    "0xA3564C726d2F47a5cB77F4Db2272d3dc92B9Cdf6": 24595000n,
-  })
-  .addEventHandlers({ "CreateAsk": onCreateAsk })
-  .addEventHandlers({ "CancelAsk": onCancelAsk })
-  .addEventHandlers({ "AcceptAsk": onAcceptAsk })
-  .addEventHandlers({ "Blacklisted": onBlacklist });
+  .addContract({
+    name: "Molek",
+    abi: MOLEK_ABI,
+    sources: { "0xA3564C726d2F47a5cB77F4Db2272d3dc92B9Cdf6": 33087700n },
+    eventHandlers: {
+      "CreateAsk": onCreateAsk,
+      "CancelAsk": onCancelAsk,
+      "AcceptAsk": onAcceptAsk,
+      "Blacklisted": onBlacklist,
+    },
+  });
 
 manifest
   .addEntities([Reward])
   .addChain("avalancheFuji", { blockRange: 100n })
-  .addContract(REWARDER_ABI)
-  .addSources({
-    "0x2f474868E8105074366cC568D6E6fC9438bf9508": 25388351n,
-  })
-  .addEventHandlers({ "RewardCreated": onRewardCreated })
-  .addEventHandlers({ "RewardToggled": onRewardToggled })
-  .addEventHandlers({ "RewardClaimed": onRewardClaimed });
+  .addContract({
+    name: "Rewarder",
+    abi: REWARDER_ABI,
+    sources: { "0x2f474868E8105074366cC568D6E6fC9438bf9508": 25388350n },
+    eventHandlers: {
+      "RewardCreated": onRewardCreated,
+      "RewardToggled": onRewardToggled,
+      "RewardClaimed": onRewardClaimed,
+    },
+  });
 
 export default manifest
   .build();
