@@ -16,6 +16,19 @@ export interface IBlacklist {
   collectionName: string;
 }
 
+export interface IReward {
+  rewardId: number;
+  title: string;
+  collection: string;
+  paused: boolean;
+  category: number;
+  globalLimit: number;
+  walletLimit: number;
+  amountPerFavor: number;
+  claimed: number;
+  tokenIds: number[];
+}
+
 export const Ask = createEntity<IAsk>("Ask", {
   id: String,
   chain: { type: Number, index: true },
@@ -30,4 +43,17 @@ export const Blacklist = createEntity<IBlacklist>("Blacklist", {
   chain: { type: Number, index: true },
   address: { type: String, index: true },
   collectionName: String,
+});
+
+export const Reward = createEntity<IReward>("Reward", {
+  rewardId: { type: Number, index: true },
+  title: String,
+  collection: String,
+  paused: Boolean,
+  category: Number,
+  globalLimit: Number,
+  walletLimit: Number,
+  amountPerFavor: Number,
+  claimed: Number,
+  tokenIds: [Number],
 });
