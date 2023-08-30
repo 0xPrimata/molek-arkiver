@@ -2,7 +2,7 @@ import { type EventHandlerFor } from "https://deno.land/x/robo_arkiver@v0.4.21/m
 import { Ask, Blacklist, Reward } from "../entities/marketplace.ts";
 import { MOLEK_ABI, NFT_ABI, REWARDER_ABI } from "../abis/Marketplace.ts";
 import { createPublicClient, getContract, http } from "npm:viem";
-import { avalanche } from "npm:viem/chains";
+import { avalanche, avalancheFuji } from "npm:viem/chains";
 import { formatUnits } from "npm:viem";
 
 const publicClient = createPublicClient({
@@ -11,6 +11,14 @@ const publicClient = createPublicClient({
 });
 
 const rewarderAddress = "0x2f474868E8105074366cC568D6E6fC9438bf9508";
+
+const formatBigIntArray = (array: readonly bigint[]) => {
+  return array.length == 0 ? [] : array.map((value) => formatUnits(value, 0));
+};
+
+const formatBigInt = (value: bigint) => {
+  return formatUnits(value, 0);
+};
 
 export const onCreateAsk: EventHandlerFor<typeof MOLEK_ABI, "CreateAsk"> =
   async ({
@@ -87,7 +95,7 @@ export const onRewardCreated: EventHandlerFor<
   const {
     id,
     title,
-    collectionAddress,
+    collection,
     category,
     globalLimit,
     walletLimit,
@@ -100,19 +108,19 @@ export const onRewardCreated: EventHandlerFor<
   });
 
   const rewardData = await contract.read.getRewardData([id]);
-
+  const tokenIds = rewardData[1];
   const record = new Reward({
     chain: await client.getChainId(),
     rewardId: Number(formatUnits(id, 0)),
     title: title,
-    collectionAddress: collectionAddress,
+    collectionAddress: collection,
     paused: false,
     category: category,
-    globalLimit: globalLimit,
-    walletLimit: walletLimit,
-    amountPerFavor: amountPerFavor,
+    globalLimit: formatBigInt(globalLimit),
+    walletLimit: formatBigInt(walletLimit),
+    amountPerFavor: formatBigInt(amountPerFavor),
     claimed: 0,
-    tokenIds: rewardData[1],
+    tokenIds: formatBigIntArray(tokenIds),
   });
   await record.save();
 };
@@ -137,10 +145,11 @@ export const onRewardToggled: EventHandlerFor<
 
   await Reward.deleteOne({
     chain: await client.getChainId(),
-    rewardId: formatUnits(id, 0),
+    rewardId: Number(formatUnits(id, 0)),
   });
 
   const rewardData = await contract.read.getRewardData([id]);
+  const tokenIds = rewardData[1];
 
   const record = new Reward({
     chain: await client.getChainId(),
@@ -149,11 +158,11 @@ export const onRewardToggled: EventHandlerFor<
     collectionAddress: rewardData[0].collection,
     paused: paused,
     category: rewardData[0].category,
-    globalLimit: rewardData[0].globalLimit,
-    walletLimit: rewardData[0].walletLimit,
-    amountPerFavor: rewardData[0].amountPerFavor,
-    claimed: rewardData[0].claimed,
-    tokenIds: rewardData[1],
+    globalLimit: formatBigInt(rewardData[0].globalLimit),
+    walletLimit: formatBigInt(rewardData[0].walletLimit),
+    amountPerFavor: formatBigInt(rewardData[0].amountPerFavor),
+    claimed: formatBigInt(rewardData[0].claimed),
+    tokenIds: formatBigIntArray(tokenIds),
   });
 
   await record.save();
@@ -181,7 +190,7 @@ export const onRewardClaimed: EventHandlerFor<
 
   await Reward.deleteOne({
     chain: await client.getChainId(),
-    rewardId: formatUnits(id, 0),
+    rewardId: Number(formatUnits(id, 0)),
   });
 
   const rewardData = await contract.read.getRewardData([id]);
@@ -193,11 +202,11 @@ export const onRewardClaimed: EventHandlerFor<
     collectionAddress: rewardData[0].collection,
     paused: false,
     category: rewardData[0].category,
-    globalLimit: rewardData[0].globalLimit,
-    walletLimit: rewardData[0].walletLimit,
-    amountPerFavor: rewardData[0].amountPerFavor,
-    claimed: rewardData[0].claimed + amount,
-    tokenIds: rewardData[1],
+    globalLimit: formatBigInt(rewardData[0].globalLimit),
+    walletLimit: formatBigInt(rewardData[0].walletLimit),
+    amountPerFavor: formatBigInt(rewardData[0].amountPerFavor),
+    claimed: formatBigInt(rewardData[0].claimed + amount),
+    tokenIds: formatBigIntArray(rewardData[1]),
   });
 
   await record.save();

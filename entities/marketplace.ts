@@ -17,6 +17,7 @@ export interface IBlacklist {
 }
 
 export interface IReward {
+  chain: number;
   rewardId: number;
   title: string;
   collectionAddress: string;
@@ -46,6 +47,7 @@ export const Blacklist = createEntity<IBlacklist>("Blacklist", {
 });
 
 export const Reward = createEntity<IReward>("Reward", {
+  chain: Number,
   rewardId: { type: Number, index: true },
   title: String,
   collectionAddress: String,

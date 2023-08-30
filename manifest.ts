@@ -29,27 +29,12 @@ manifest
   });
 
 manifest
-  .addEntities([Ask, Blacklist])
-  .addChain("avalancheFuji", { blockRange: 100n })
-  .addContract({
-    name: "Molek",
-    abi: MOLEK_ABI,
-    sources: { "0xA3564C726d2F47a5cB77F4Db2272d3dc92B9Cdf6": 33087700n },
-    eventHandlers: {
-      "CreateAsk": onCreateAsk,
-      "CancelAsk": onCancelAsk,
-      "AcceptAsk": onAcceptAsk,
-      "Blacklisted": onBlacklist,
-    },
-  });
-
-manifest
   .addEntities([Reward])
-  .addChain("avalancheFuji", { blockRange: 100n })
+  .addChain("avalanche", { blockRange: 100n })
   .addContract({
     name: "Rewarder",
     abi: REWARDER_ABI,
-    sources: { "0x2f474868E8105074366cC568D6E6fC9438bf9508": 25388350n },
+    sources: { "0x6D36bD903fEbdd9eA9B75502aFe451E7D9e5EF65": 34544380n },
     eventHandlers: {
       "RewardCreated": onRewardCreated,
       "RewardToggled": onRewardToggled,
