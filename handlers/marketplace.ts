@@ -10,7 +10,8 @@ const publicClient = createPublicClient({
   transport: http(),
 });
 
-const rewarderAddress = "0x2f474868E8105074366cC568D6E6fC9438bf9508";
+export const molekAddress = "0x441d636cd482769c6581B4062e931f13aB5dA774";
+export const rewarderAddress = "0x6D36bD903fEbdd9eA9B75502aFe451E7D9e5EF65";
 
 const formatBigIntArray = (array: readonly bigint[]) => {
   return array.length == 0 ? [] : array.map((value) => formatUnits(value, 0));
